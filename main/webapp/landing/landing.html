@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" ng-app="myListsLanding" ng-controller="LandingController">
+<head>
+  <title>myLists | Powerful Made EASY!</title>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  
+  <!-- Bootstrap -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+  <!-- Angular -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
+
+  <!-- Application -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="js/myListsLanding.js"></script>
+  <script src="js/landingController.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+  <nav role="navigation" class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">myLists.com</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="#/registration">Register</a></li>
+          <li><a href="#/exciteMe">Get Me Excited!</a></li>
+          <li><a href="#/whySMS">Why Text Messages?</a></li>
+          <li><a href="#/">Premium Accounts</a></li>
+          <li><a href="#">About/Contact Us</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active" style="cursor: pointer;"><a data-toggle="modal" data-target="#logInForm">Log In</a></li>
+          <li><a>Help</a></li>
+        </ul>
+      </div>
+  </nav>
+
+  <div ng-view></div>
+
+  <div class="modal fade" id="logInForm" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+	<div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Log In</h4>
+	</div>
+	<div class="modal-body">
+	  <form class="ng-pristine ng-valid">
+        <div class="input-group">
+	      <span class="input-group-addon"><span class="icon-envelope"></span></span>
+	      <input type="text" class="form-control input-lg ng-pristine ng-valid" name="email" ng-model="user.email" placeholder="Email Address: keith.lopez@myLists.com">
+	      <input type="text" class="form-control input-lg ng-pristine ng-valid" name="password" ng-model="user.password" placeholder="Password: ********">
+	    </div>
+
+		<div class="input-group">
+			<label class="checkbox pull-left">
+	        	<input type="checkbox" ng-model="user.rememberMePlease">Keep Me Logged In (Unless I Log Out)
+	        </label>
+		</div>
+
+	    <div class="text-center">
+	      <button type="submit" class="btn btn-lrg ng-binding btn-danger" data-dismiss="modal" ng-disabled="!isLogInFormComplete()" ng-class="{false: 'btn-danger', true: 'btn-success'}[isLogInFormComplete()]" ng-click="submitLogInForm()">Log In</button>
+	    </div>
+	
+	  </form>
+	</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

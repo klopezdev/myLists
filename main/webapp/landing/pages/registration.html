@@ -1,0 +1,79 @@
+<div class="container">
+	<div class="row">
+		<div
+			class="landing-dialog panel panel-default col-md-6 col-md-offset-3">
+			<div ng-show="user.activationCode == null">
+				<p>
+					We all make lists... Shopping, Planning, Reading, He loves me He loves me not....
+				</p>
+
+				<p>
+					There's an endless <a href="https://en.wikipedia.org/wiki/List">list</a>
+					of ways to use a <a href="https://en.wikipedia.org/wiki/List">list</a>
+					and many ways to track them.
+				</p>
+
+				<p>
+					Pen and paper, in your head, mobile apps and betweenfriends...
+				</p>
+
+				<p>
+					And now introducing: <span class="asset">myLists.com</span>
+					<a href="#/exciteMe" class="in-text-link"><sub>Get me excited!...<sub></a>
+				</p>
+				<form>
+					<p class="input-group">
+						<span class="input-group-addon"><span class="icon-envelope"></span></span>
+						<input type="text" 
+							class="form-control input-lg" 
+							name="phone"
+							ng-model="user.phone"
+							placeholder="Mobile Phone: 12101234567 (Just Numbers Pls)" /> 
+						<input type="text" 
+							class="form-control input-lg" 
+							name="email"
+							ng-model="user.email"
+							placeholder="Email Address: keith.lopez@myLists.com" /> 
+						<input type="text" 
+							class="form-control input-lg" 
+							name="password"
+							ng-model="user.password" 
+							placeholder="Password: ********" />
+							
+						<input type="text" 
+							class="form-control input-lg" 
+							name="firstName"
+							ng-model="user.firstName"
+							placeholder="First Name (Optional): Keith" />
+						<input type="text" 
+							class="form-control input-lg" 
+							name="lastName"
+							ng-model="user.lastName"
+							placeholder="Last Name (Optional): Lopez" />
+					</p>
+
+					<p class="text-center">
+						<button type="submit" 
+							class="btn btn-lrg"
+							ng-class="{false: 'btn-danger', true: 'btn-success'}[isFormComplete()]"
+							ng-click="submitForm()">
+							{{ isFormComplete() ? "GetStarted" : "Enter Information" }}
+						</button>
+					</p>
+				</form>
+			</div>
+			<form ng-show="user.activationCode != null">
+				<div class="text-center">
+					<h1>1 (210) 529-7817</h1>
+				</div>
+				<p style="margin-top:20px;">
+					Save our phone number as <span class="asset">myLists.com</span> in
+					your phone.
+				</p>
+				<p>
+					Text us this code to activate your account: <span class="user-activation-code">{{user.activationCode }}</span>
+				</p>
+			</form>
+		</div>
+	</div>
+</div>

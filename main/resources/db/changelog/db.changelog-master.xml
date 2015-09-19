@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="add_user_table" author="klopez">
+        <createTable tableName="User">
+            <column name="id" type="BIGINT(20)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="emailAddress" type="VARCHAR(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="firstName" type="VARCHAR(255)" />
+            <column name="lastName" type="VARCHAR(255)" />
+            <column name="password" type="VARCHAR(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="smsNumber" type="VARCHAR(11)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="activationCode" type="VARCHAR(10)" />
+            <column name="dateCreated" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="lastLogin" type="DATETIME">
+            	<constraints nullable="true"/>
+            </column>
+			<column name="role" type="ENUM('ADMIN','USER','TWILIO')">
+				<constraints nullable="false"/>
+			</column>
+			<column name="mergeFromUserId" type="BIGINT(20)">
+                <constraints nullable="true" foreignKeyName="fk_User_mergeFrom_User" references="User(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="add_admin_and_twilio_users" author="klopez">
+    	<insert tableName="User">
+    		<column name="emailAddress" value="klopez.dev@gmail.com"/>
+            <column name="firstName" value="Keith"/>
+            <column name="lastName" value="Lopez"/>
+            <column name="password" value="$2a$10$47QjHhYLrCPJPa3yxhaqvOifNNaMJwPQOW4txbvWcPSjknQs1bCiu"/>
+            <column name="smsNumber" value="12102013796"/>
+			<column name="role" value="ADMIN"/>
+    	</insert>
+
+    	<insert tableName="User">
+    		<column name="emailAddress" value="twilioRESTUser"/>
+            <column name="firstName" value="TWILIO"/>
+            <column name="lastName" value="API"/>
+            <column name="password" value="$2a$10$WxAqbqu7ljLt8PMgnecc3e9pmKrKGpSUyQFBVKQEjgkRQINdxhatm"/>
+            <column name="smsNumber" value="12105297817"/>
+			<column name="role" value="TWILIO"/>
+    	</insert>
+    </changeSet>
+
+    <changeSet id="add_communication_table" author="klopez">
+    	<createTable tableName="Communication">
+    	    <column name="id" type="BIGINT(20)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="twilioMessageId" type="VARCHAR(255)">
+            	<constraints nullable="false" />
+            </column>            
+            <column name="fromPhone" type="VARCHAR(11)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="toPhone" type="VARCHAR(11)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="body" type="VARCHAR(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="dateCreated" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+				<constraints nullable="false"/>
+			</column>     
+		</createTable>
+    </changeSet>
+    
+    <changeSet id="add_list_item_table" author="klopez">
+    	<createTable tableName="ListItem">
+    	    <column name="id" type="BIGINT(20)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="userId" type="BIGINT(20)">
+            	<constraints nullable="false" foreignKeyName="fk_List_Item_User" references="User(id)"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+            	<constraints nullable="false" />
+            </column>
+            <column name="itemNumber" type="SMALLINT(6)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="communicationId" type="BIGINT(20)">
+            	<constraints nullable="false" foreignKeyName="fk_List_Item_Communication" references="Communication(id)"/>
+            </column>
+			<column name="dateCreated" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+				<constraints nullable="false"/>
+			</column>            
+    	</createTable>
+    	
+    	<addUniqueConstraint columnNames="userId,itemNumber" tableName="ListItem" constraintName="unq_ListItem_userId_itemNumber"/>
+    </changeSet>
+    
+    <changeSet id="make_User_emailAddress_unique" author="klopez">
+    	<addUniqueConstraint columnNames="emailAddress" tableName="User"/>
+    </changeSet>
+
+</databaseChangeLog>
